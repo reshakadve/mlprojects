@@ -1,3 +1,6 @@
 pandas 
 numpy
 seaborn
+matplotlib
+scikit-learn
+#for scikit-learn watch the model training again
