@@ -1,0 +1,1 @@
+python -m src.components.data_ingestion

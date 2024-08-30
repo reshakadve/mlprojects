@@ -4,5 +4,5 @@ seaborn
 matplotlib
 scikit-learn
 catboost
-xboost
-#for scikit-learn watch the model training again
+xgboost
+dill
