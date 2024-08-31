@@ -54,45 +54,55 @@ class DataTransformation:
 
         except Exception as e:
             raise CustomException(e, sys)
-
+        
     def initiate_data_transformation(self, train_path, test_path):
         try:
+            # Read train and test data
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
-            logging.info("Train and Test data read")
+            logging.info("Train and Test data read successfully")
 
-            logging.info("Obtaining preprocessing obj")
-            preprocessing_obj = self.get_data_transformer_obj() #needs to be converted into pickle file
+            # Obtain the preprocessing object
+            logging.info("Obtaining preprocessing object")
+            preprocessing_obj = self.get_data_transformer_obj()
 
             target_col = "math score"
             numerical_columns = ["writing score", "reading score"]
 
+            # Split data into input features and target labels
             input_feature_train_df = train_df.drop(target_col, axis=1)
             target_feature_train_df = train_df[target_col]
 
             input_feature_test_df = test_df.drop(target_col, axis=1)
             target_feature_test_df = test_df[target_col]
 
-            logging.info(f"Applying preprocessing object on training dataframe and testing dataframe.")
+            logging.info("Applying preprocessing object on training and testing data")
 
+            # Apply the transformations
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr  = preprocessing_obj.transform(input_feature_test_df)
 
+            '''# Debugging: Check if the transformation contains any non-numeric data
+            logging.info(f"Transformed Training Data Sample:\n{input_feature_train_arr[:5]}")
+            logging.info(f"Transformed Testing Data Sample:\n{input_feature_test_arr[:5]}")'''
+
+            # Combine the transformed input features with target labels
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
-            test_arr = np.c_[input_feature_test_arr, np.array(input_feature_test_df)]
+            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            logging.info("Saved preprocessing object.")
-
+            logging.info("Saving preprocessing object")
             save_object( 
-
-                file_path = self.data_transformation_config.preprocessor_obj_file_path,
-                obj = preprocessing_obj
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=preprocessing_obj
             )
-            return(
+
+            return (
                 train_arr,
                 test_arr,
                 self.data_transformation_config.preprocessor_obj_file_path
-                )
+            )
 
         except Exception as e:
             raise CustomException(e, sys)
+
+     
