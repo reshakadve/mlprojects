@@ -8,6 +8,9 @@ from src.exception import CustomException
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
+from sklearn.metrics import r2_score
+from sklearn.model_selection import GridSearchCV
+
 def save_object(file_path, obj):
     try:
         dir_path = os.path.dirname(file_path)
