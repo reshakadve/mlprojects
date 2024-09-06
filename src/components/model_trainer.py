@@ -10,7 +10,6 @@ from sklearn.ensemble import (
 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
-from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
@@ -80,7 +79,6 @@ class ModelTrainer():
                     # 'loss':['linear','square','exponential'],
                     'n_estimators': [8,16,32,64,128,256]
                 }
-                
             }
 
             model_report:dict=evaluate_model(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,
